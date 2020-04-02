@@ -2,6 +2,7 @@ import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
 import React from 'react';
 
 function RenderCard({item}) {
+
     return (
         <Card>
             <CardImg src={item.image} alt={item.name} />
@@ -14,6 +15,7 @@ function RenderCard({item}) {
 }
 
 function Home(props) {
+    
     return (
         <div className="container">
             <div className="row">

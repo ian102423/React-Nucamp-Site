@@ -33,10 +33,10 @@ class Main extends Component { // Presentataion & Container / Impure
             );
         };
 
-        const CampsiteWithId = ({match}) => {
+        const CampsiteWithId = ({ match }) => {
             return (
-                <CampsiteInfo campsite={this.props.campsites.filter(campsite => campsite.id === +match.params.campsiteId)[0]} 
-                  comments={this.props.comments.filter(comment => comment.campsiteId === +match.params.campsiteId)} />
+                <CampsiteInfo campsite={this.props.campsites.filter(campsite => campsite.id === +match.params.campsiteId)[0]}
+                    comments={this.props.comments.filter(comment => comment.campsiteId === +match.params.campsiteId)} />
             );
         };
 
@@ -48,7 +48,7 @@ class Main extends Component { // Presentataion & Container / Impure
                     <Route exact path='/directory' render={() => <Directory campsites={this.props.campsites} />} />
                     <Route path='/directory/:campsiteId' component={CampsiteWithId} />
                     <Route exact path='/contactus' component={Contact} />
-                    <Route exact path='/aboutus' render={() => <About partners={this.props.partners} /> } />
+                    <Route exact path='/aboutus' render={() => <About partners={this.props.partners} />} />
                     <Redirect to='/home' />
                 </Switch>
                 <Footer />

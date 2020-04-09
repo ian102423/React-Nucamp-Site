@@ -1,3 +1,5 @@
+// Combined Reducers
+
 import {createStore, combineReducers} from 'redux';
 import { Campsites } from './campsites';
 import { Comments } from './comments';

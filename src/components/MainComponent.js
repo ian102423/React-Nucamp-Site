@@ -8,6 +8,7 @@ import About from './AboutComponent';
 import Contact from './ContactComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
+import { addComment } from '../redux/ActionCreators'; // mapDispatchToProps
 /* eslint-disable */
 
 const mapStateToProps = state => {
@@ -17,6 +18,10 @@ const mapStateToProps = state => {
         partners: state.partners,
         promotions: state.promotions
     };
+};
+
+const mapDispatchToProps = { // Set it up as Object - Recommanded Way. Object & Function
+    addComment: (campsiteId, rating, author, text) => (addComment(campsiteId, rating, author, text))
 };
 
 class Main extends Component { // Presentataion & Container / Impure
@@ -35,8 +40,11 @@ class Main extends Component { // Presentataion & Container / Impure
 
         const CampsiteWithId = ({ match }) => {
             return (
-                <CampsiteInfo campsite={this.props.campsites.filter(campsite => campsite.id === +match.params.campsiteId)[0]}
-                    comments={this.props.comments.filter(comment => comment.campsiteId === +match.params.campsiteId)} />
+                <CampsiteInfo
+                    campsite={this.props.campsites.filter(campsite => campsite.id === +match.params.campsiteId)[0]}
+                    comments={this.props.comments.filter(comment => comment.campsiteId === +match.params.campsiteId)}
+                    addComment={this.props.addComment}
+                />
             );
         };
 
@@ -57,4 +65,4 @@ class Main extends Component { // Presentataion & Container / Impure
     }
 }
 
-export default withRouter(connect(mapStateToProps)(Main));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

@@ -22,7 +22,6 @@ function RenderCard({ item, isLoading, errMess }) {
                 <CardText>{item.description}</CardText>
             </CardBody>
         </Card>
-        // <div />
     )
 }
 

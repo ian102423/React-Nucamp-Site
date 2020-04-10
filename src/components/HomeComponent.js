@@ -1,5 +1,5 @@
-import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
 import React from 'react';
+import { Card, CardImg, CardBody, CardTitle, CardText } from 'reactstrap';
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
 
@@ -22,7 +22,8 @@ function RenderCard({ item, isLoading, errMess }) {
                 <CardText>{item.description}</CardText>
             </CardBody>
         </Card>
-    );
+        // <div />
+    )
 }
 
 function Home(props) {

@@ -9,7 +9,7 @@ import Contact from './ContactComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { actions } from 'react-redux-form';
-import { addComment, fetchCampsites } from '../redux/ActionCreators'; // mapDispatchToProps
+import { addComment, fetchCampsites, fetchComments, fetchPromotions } from '../redux/ActionCreators'; // mapDispatchToProps
 /* eslint-disable */
 
 const mapStateToProps = state => {
@@ -24,13 +24,17 @@ const mapStateToProps = state => {
 const mapDispatchToProps = { // Set it up as Object - Recommanded Way. Object & Function
     addComment: (campsiteId, rating, author, text) => (addComment(campsiteId, rating, author, text)),
     fetchCampsites: () => (fetchCampsites()),
-    resetFeedbackForm: () => (actions.reset('feedbackForm'))
+    resetFeedbackForm: () => (actions.reset('feedbackForm')),
+    fetchComments: () => (fetchComments()),
+    fetchPromotions: () => (fetchPromotions())
 };
 
 class Main extends Component { // Presentataion & Container / Impure
 
     componentDidMount() {
         this.props.fetchCampsites(); // Lifecyle Methods
+        this.props.fetchComments(); // Add Action Creators
+        this.props.fetchPromotions(); // Add Action Creators
     }
 
     render() {
@@ -41,8 +45,10 @@ class Main extends Component { // Presentataion & Container / Impure
                     campsite={this.props.campsites.campsites.filter(campsite => campsite.featured)[0]}
                     campsitesLoading={this.props.campsites.isLoading}
                     campsitesErrMess={this.props.campsites.errMess}
-                    promotion={this.props.promotions.filter(promotion => promotion.featured)[0]}
                     partner={this.props.partners.filter(partner => partner.featured)[0]}
+                    promotion={this.props.promotions.promotions.filter(promotion => promotion.featured)[0]}
+                    promotionLoading={this.props.promotions.isLoading}
+                    promotionErrMess={this.props.promotions.errMess}
                 />
             );
         }
@@ -53,7 +59,8 @@ class Main extends Component { // Presentataion & Container / Impure
                     campsite={this.props.campsites.campsites.filter(campsite => campsite.id === +match.params.campsiteId)[0]}
                     isLoading={this.props.campsites.isLoading}
                     errMess={this.props.campsites.errMess}
-                    comments={this.props.comments.filter(comment => comment.campsiteId === +match.params.campsiteId)}
+                    comments={this.props.comments.comments.filter(comment => comment.campsiteId === +match.params.campsiteId)}
+                    commentsErrMess={this.props.comments.errMess}
                     addComment={this.props.addComment}
                 />
             );

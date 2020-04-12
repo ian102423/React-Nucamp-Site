@@ -6,10 +6,14 @@ import { FadeTransform } from 'react-animation-components';
 
 function RenderCard({ item, isLoading, errMess }) {
     if (isLoading) {
-        return <Loading />;
+        return (
+            <Loading />
+        );
     }
     if (errMess) {
-        return <h4>{errMess}</h4>;
+        return (
+            <h4>{errMess}</h4>
+        );
     }
     return (
         <FadeTransform
@@ -29,7 +33,6 @@ function RenderCard({ item, isLoading, errMess }) {
 }
 
 function Home(props) {
-
     return (
         <div className="container">
             <div className="row">
@@ -43,8 +46,15 @@ function Home(props) {
                 <div className="col-md m-1">
                     <RenderCard
                         item={props.promotion}
-                        isLoading={props.promotionLoading}
-                        errMess={props.promotionErrMess}
+                        isLoading={props.promotionsLoading}
+                        errMess={props.promotionsErrMess}
+                    />
+                </div>
+                <div className="col-md m-1">
+                    <RenderCard
+                        item={props.partner}
+                        isLoading={props.partnersLoading}
+                        errMess={props.partnersErrMess}
                     />
                 </div>
             </div>

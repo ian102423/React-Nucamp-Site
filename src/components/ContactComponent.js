@@ -33,16 +33,31 @@ class Contact extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    handleBlur = (field) => () => {
+        this.setState({
+            touched: { ...this.state.touched, [field]: true }
+        });
+    }
+
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
+    }
+
     handleSubmit(values) {
-        console.log('Current State is: ' + JSON.stringify(values));
-        alert('Current State is: ' + JSON.stringify(values));
+        this.props.postFeedback(values);
         this.props.resetFeedbackForm();
     }
 
     render() {
 
         return (
-            <div className="container" >
+            <div className="container">
                 <div className="row">
                     <div className="col">
                         <Breadcrumb>
@@ -59,9 +74,9 @@ class Contact extends Component {
                         <h5>Our Address</h5>
                         <address>
                             1 Nucamp Way<br />
-                        Seattle, WA 98001<br />
-                        U.S.A.
-                    </address>
+                            Seattle, WA 98001<br />
+                            U.S.A.
+                        </address>
                     </div>
                     <div className="col">
                         <a role="button" className="btn btn-link" href="tel:+12065551234"><i className="fa fa-phone"></i> 1-206-555-1234</a><br />
@@ -210,7 +225,7 @@ class Contact extends Component {
                                 <Col md={{ size: 10, offset: 2 }}>
                                     <Button type="submit" color="primary">
                                         Send Feedback
-                            </Button>
+                                    </Button>
                                 </Col>
                             </Row>
                         </Form>

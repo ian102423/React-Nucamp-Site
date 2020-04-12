@@ -9,7 +9,7 @@ import Contact from './ContactComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { actions } from 'react-redux-form';
-import { postComment, fetchCampsites, fetchComments, fetchPromotions } from '../redux/ActionCreators'; // mapDispatchToProps
+import { postComment, fetchCampsites, fetchComments, fetchPromotions, fetchPartners, postFeedback } from '../redux/ActionCreators'; // mapDispatchToProps
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 /* eslint-disable */
 
@@ -27,7 +27,9 @@ const mapDispatchToProps = { // Set it up as Object - Recommanded Way. Object & 
     fetchCampsites: () => (fetchCampsites()),
     resetFeedbackForm: () => (actions.reset('feedbackForm')),
     fetchComments: () => (fetchComments()),
-    fetchPromotions: () => (fetchPromotions())
+    fetchPromotions: () => (fetchPromotions()),
+    fetchPartners: () => (fetchPartners()),
+    postFeedback: (firstName, lastName, phoneNum, email, agree, contactType, feedback) => (postFeedback(firstName, lastName, phoneNum, email, agree, contactType, feedback))
 };
 
 class Main extends Component { // Presentataion & Container / Impure
@@ -36,6 +38,7 @@ class Main extends Component { // Presentataion & Container / Impure
         this.props.fetchCampsites(); // Lifecyle Methods
         this.props.fetchComments(); // Add Action Creators
         this.props.fetchPromotions(); // Add Action Creators
+        this.props.fetchPartners(); // Add Action Creators
     }
 
     render() {
@@ -46,10 +49,12 @@ class Main extends Component { // Presentataion & Container / Impure
                     campsite={this.props.campsites.campsites.filter(campsite => campsite.featured)[0]}
                     campsitesLoading={this.props.campsites.isLoading}
                     campsitesErrMess={this.props.campsites.errMess}
-                    partner={this.props.partners.filter(partner => partner.featured)[0]}
+                    partner={this.props.partners.partners.filter(partner => partner.featured)[0]}
+                    partnersLoading={this.props.partners.isLoading}
+                    partnersErrMess={this.props.partners.errMess}
                     promotion={this.props.promotions.promotions.filter(promotion => promotion.featured)[0]}
-                    promotionLoading={this.props.promotions.isLoading}
-                    promotionErrMess={this.props.promotions.errMess}
+                    promotionsLoading={this.props.promotions.isLoading}
+                    promotionsErrMess={this.props.promotions.errMess}
                 />
             );
         }
@@ -69,20 +74,20 @@ class Main extends Component { // Presentataion & Container / Impure
 
         return (
             <div>
-            <Header />
-            <TransitionGroup>
-                <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
-                    <Switch>
-                        <Route path='/home' component={HomePage} />
-                        <Route exact path='/directory' render={() => <Directory campsites={this.props.campsites} />} />
-                        <Route path='/directory/:campsiteId' component={CampsiteWithId} />
-                       <Route exact path='/contactus' render={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} /> } />
-                        <Route exact path='/aboutus' render={() => <About partners={this.props.partners} /> } />
-                        <Redirect to='/home' />
-                    </Switch>
-                </CSSTransition>
-            </TransitionGroup>
-            <Footer />
+                <Header />
+                <TransitionGroup>
+                    <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
+                        <Switch>
+                            <Route path='/home' component={HomePage} />
+                            <Route exact path='/directory' render={() => <Directory campsites={this.props.campsites} />} />
+                            <Route path='/directory/:campsiteId' component={CampsiteWithId} />
+                            <Route exact path='/aboutus' render={() => <About partners={this.props.partners} />} />
+                            <Route exact path='/contactus' render={() => <Contact postFeedback={this.props.postFeedback} resetFeedbackForm={this.props.resetFeedbackForm} />} />
+                            <Redirect to='/home' />
+                        </Switch>
+                    </CSSTransition>
+                </TransitionGroup>
+                <Footer />
             </div>
         );
     }
